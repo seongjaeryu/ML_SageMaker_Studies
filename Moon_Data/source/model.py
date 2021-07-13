@@ -13,8 +13,14 @@ class SimpleNet(nn.Module):
            :param output_dim: Number of outputs
          '''
         super(SimpleNet, self).__init__()
+
+        dropout_p = 0.2
         
-        # define all layers, here
+        self.fc1 = nn.Linear(input_dim, hidden_dim)
+        self.fc2 = nn.Linear(hidden_dim, output_dim)
+        self.dropout = nn.Dropout(dropout_p)
+        
+        self.sigmoid = nn.Sigmoid()
         
     
     ## TODO: Define the feedforward behavior of the network
@@ -23,6 +29,8 @@ class SimpleNet(nn.Module):
            :param x: A batch of input features
            :return: A single, sigmoid activated value
          '''
-        # your code, here
+        x = self.dropout(F.relu(self.fc1(x)))
+        x = self.dropout(F.relu(self.fc2(x)))
+        x = self.sigmoid(x)
         
         return x
